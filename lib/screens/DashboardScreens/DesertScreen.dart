@@ -42,7 +42,7 @@ class _DesertScreenState extends State<DesertScreen> {
             SizedBox(
               height: 30,
             ),
-            ListViewWithImageAndStarButBlack(),
+            ListViewWithImageAndStarButBlack(context),
           ],
         ),
       ),
