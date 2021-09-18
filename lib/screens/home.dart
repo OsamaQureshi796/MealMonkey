@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:monkey_meal/screens/DashboardScreens/DashboardHomeScreen.dart';
 import 'package:monkey_meal/utils/AppColors.dart';
 
+import 'DashboardScreens/MoreScreen.dart';
 import 'DashboardScreens/menuScreen.dart';
 import 'DashboardScreens/offers.dart';
+import 'DashboardScreens/profile.dart';
 
 class Dashboard extends StatefulWidget {
 
@@ -23,7 +25,7 @@ class _DashboardState extends State<Dashboard> {
 
   int _bottomNavIndex=0;
                           //0         //1         //2         //3         //4
-  List<Widget> screens = [MenuScreen(),DealScreen(),Container(),Container(),DashboardHomeScreen()];
+  List<Widget> screens = [MenuScreen(),DealScreen(),Profile(),MoreScreen(),DashboardHomeScreen()];
 
   @override
   Widget build(BuildContext context) {
