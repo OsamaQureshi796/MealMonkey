@@ -8,6 +8,9 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
+
+  bool switchValue=false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,85 +128,126 @@ class _PaymentScreenState extends State<PaymentScreen> {
     showModalBottomSheet(
         context: context,
         builder: (builder){
-          return new Container(
-            // margin: EdgeInsets.symmetric(horizontal: ),
-            height: 350.0,
-            color: Colors.red, //could change this to Color(0xFF737373),
-            //so you don't have to change MaterialApp canvasColor
-            child: SingleChildScrollView(
-              child: new Container(
-                padding: EdgeInsets.only(top: 10,left: 15),
-                  decoration: new BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: new BorderRadius.only(
-                          topLeft: const Radius.circular(18.0),
-                          topRight: const Radius.circular(18.0))),
-                  child: new Column(
-                    children: [
-                      Row(
+
+
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter localState) {
+              return new Container(
+                // margin: EdgeInsets.symmetric(horizontal: ),
+                height: 350.0,
+                color: Colors.red, //could change this to Color(0xFF737373),
+                //so you don't have to change MaterialApp canvasColor
+                child: SingleChildScrollView(
+                  child: new Container(
+                      padding: EdgeInsets.only(top: 10,left: 15),
+                      decoration: new BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: new BorderRadius.only(
+                              topLeft: const Radius.circular(18.0),
+                              topRight: const Radius.circular(18.0))),
+                      child: new Column(
                         children: [
-                          Text("Add Credit/ Debit cards5",style: TextStyle(color:Colors.black,fontWeight: FontWeight.bold,fontSize: 18),)
-                        ,
+                          Row(
+                            children: [
+                              Text("Add Credit/ Debit cards5",style: TextStyle(color:Colors.black,fontWeight: FontWeight.bold,fontSize: 18),)
+                              ,
 
 
-                        ],
-                      ),
-                      SizedBox(height: 10,),
-                      myTextFiled(
+                            ],
+                          ),
+                          SizedBox(height: 10,),
+                          myTextFiled(
 
-                         hintText: "Add a card number"
-                      ),
+                              hintText: "Add a card number"
+                          ),
 
 
-                      SizedBox(height: 10,),
+                          SizedBox(height: 10,),
 
-                      Row(
-                        children: [
-                          Container(
-                            width: 120,
+                          Row(
+                            children: [
+                              Container(
+                                width: 120,
+                                height: 50,
+                                child: Text("Expire",style: TextStyle(color: Colors.grey),),
+                              ),
+                              Expanded(
+                                child: myTextFiled(
+
+                                    hintText: "MM"
+                                ),
+                              ),
+                              Expanded(
+                                child: myTextFiled(
+
+                                    hintText: "Add a card number"
+                                ),
+                              ),
+
+                            ],
+                          ),
+                          SizedBox(height: 10,),
+                          myTextFiled(
+
+                              hintText: "Security Code"
+                          ),
+                          SizedBox(height: 10,),
+                          myTextFiled(
+
+                              hintText: "First Name"
+                          ),
+                          SizedBox(height: 10,),
+                          myTextFiled(
+
+                              hintText: "Last Name"
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("You can remove this card at any time"),
+
+                              Switch(
+                                value: switchValue,
+                                onChanged: (s){
+                                  localState(() {
+                                    switchValue = s;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 45),
+                            child: myStadiumIconButton(
+                                icon: Icons.add,
+                                title: 'Add another Credit/Debit Card',
+                                onTap: (){
+                                  _modalBottomSheetMenu();
+                                },
+                                color: AppColors.orangeColor
+                            ),
+                          ),
+
+                          SizedBox(
                             height: 50,
-                            child: Text("Expire",style: TextStyle(color: Colors.grey),),
-                          ),
-                          Expanded(
-                            child: myTextFiled(
-
-                                hintText: "MM"
-                            ),
-                          ),
-                          Expanded(
-                            child: myTextFiled(
-
-                                hintText: "Add a card number"
-                            ),
                           ),
 
                         ],
-                      ),
-                      SizedBox(height: 10,),
-                      myTextFiled(
-
-                          hintText: "Security Code"
-                      ),
-                      SizedBox(height: 10,),
-                      myTextFiled(
-
-                          hintText: "First Name"
-                      ),
-                      SizedBox(height: 10,),
-                      myTextFiled(
-
-                          hintText: "Last Name"
-                      ),
-                      SizedBox(
-                        height: 30,
-                      ),
-
-                    ],
-                  )),
-            ),
+                      )),
+                ),
+              );
+            },
           );
+
+
         }
     );
   }
+
 
 }

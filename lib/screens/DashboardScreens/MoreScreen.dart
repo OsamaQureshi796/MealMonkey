@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:monkey_meal/screens/DashboardScreens/myOrders.dart';
 import 'package:monkey_meal/screens/DashboardScreens/paymentScreen.dart';
+
+import 'NotificationScreen.dart';
 
 class MoreScreen extends StatefulWidget {
 
@@ -55,7 +58,13 @@ class _MoreScreenState extends State<MoreScreen> {
                 if(i==0){
                                       Navigator.push(context, MaterialPageRoute(builder: (ctx)=>PaymentScreen()));
 
-                }else{
+                }
+                else if(i==1){
+                                      Navigator.push(context, MaterialPageRoute(builder: (ctx)=>MyOrders()));
+
+                }
+                else if(i==2){
+                                      Navigator.push(context, MaterialPageRoute(builder: (ctx)=>NotificationScreen()));
 
                 }
 

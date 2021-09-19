@@ -103,7 +103,8 @@ Widget myTextFiled({String hintText}) {
     decoration: InputDecoration(
       // contentPadding: EdgeInsets.symmetric(horizontal: 0),
       filled: true,
-      fillColor: AppColors.lightGreyColor,
+      fillColor: AppColors.lightBlackColor,
+      // fillColor: AppColors.lightGreyColor,
       hintText: hintText,
       hintStyle: TextStyle(color: AppColors.hintColor),
       border: OutlineInputBorder(
