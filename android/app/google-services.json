@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "335769235730",
+    "project_id": "fir-c09da",
+    "storage_bucket": "fir-c09da.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335769235730:android:8f0a309bb7a5e0d95483cb",
+        "android_client_info": {
+          "package_name": "dotcoder.homy.monkey_meal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335769235730-oim093irnupgaus0gj8arbnednkag2ms.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkjloLBrO4C33De753X-ifQS5EeiNmdTI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335769235730-oim093irnupgaus0gj8arbnednkag2ms.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -98,14 +98,17 @@ Widget myStadiumIconButton(
   );
 }
 
-Widget myTextFiled({String hintText}) {
-  return TextField(
+Widget myTextFiled({String hintText,Function validator,Function onSaved}) {
+  return TextFormField(
+    validator: validator,
+    onSaved: onSaved,
     decoration: InputDecoration(
       // contentPadding: EdgeInsets.symmetric(horizontal: 0),
       filled: true,
-      fillColor: AppColors.lightBlackColor,
-      // fillColor: AppColors.lightGreyColor,
+      // fillColor: AppColors.lightBlackColor,
+      fillColor: Colors.grey.withOpacity(0.4),
       hintText: hintText,
+
       hintStyle: TextStyle(color: AppColors.hintColor),
       border: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.white, width: 0),

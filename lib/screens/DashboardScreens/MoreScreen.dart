@@ -3,6 +3,7 @@ import 'package:monkey_meal/screens/DashboardScreens/myOrders.dart';
 import 'package:monkey_meal/screens/DashboardScreens/paymentScreen.dart';
 
 import 'NotificationScreen.dart';
+import 'map_screen.dart';
 
 class MoreScreen extends StatefulWidget {
 
@@ -65,6 +66,9 @@ class _MoreScreenState extends State<MoreScreen> {
                 }
                 else if(i==2){
                                       Navigator.push(context, MaterialPageRoute(builder: (ctx)=>NotificationScreen()));
+
+                }else if(i==3){
+                                      Navigator.push(context, MaterialPageRoute(builder: (ctx)=>MapScreen()));
 
                 }
 
