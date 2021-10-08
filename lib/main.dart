@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:monkey_meal/screens/home.dart';
 import 'package:monkey_meal/screens/splashScreen.dart';
 
 void main()async{

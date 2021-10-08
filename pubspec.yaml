@@ -37,6 +37,7 @@ dependencies:
   firebase_auth:
   cloud_firestore:
   get:
+  google_sign_in: "^4.5.1"
 
 dev_dependencies:
   flutter_test:
