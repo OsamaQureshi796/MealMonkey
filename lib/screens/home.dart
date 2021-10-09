@@ -23,7 +23,7 @@ class _DashboardState extends State<Dashboard> {
     Icons.more
   ];
 
-  int _bottomNavIndex=0;
+  int _bottomNavIndex=4;
                           //0         //1         //2         //3         //4
   List<Widget> screens = [MenuScreen(),DealScreen(),Profile(),MoreScreen(),DashboardHomeScreen()];
 

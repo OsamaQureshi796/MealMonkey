@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:monkey_meal/model/ImageWithLabelModel.dart';
 import 'package:monkey_meal/model/ImageWithStarModel.dart';
@@ -50,9 +51,11 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
 
   @override
   initState() {
-    databaseData.forEach((e) {
-      filteredData.add(ImageWithLabelModel.fromJson(e));
-    });
+
+    /// Hardcoded Data
+    // databaseData.forEach((e) {
+    //   filteredData.add(ImageWithLabelModel.fromJson(e));
+    // });
 
     dishData.forEach((element) {
       starsTypeData.add(ImageWithStarModel.fromJson(element));
@@ -127,8 +130,30 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
                   SizedBox(
                     height: 20,
                   ),
-                  ListViewWithImageAndLabel(
-                    data: filteredData,
+                  StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance.collection('category').snapshots(),
+                    builder: (context, snapshot) {
+
+                      if(!snapshot.hasData){
+                        return Center(child: CircularProgressIndicator(),);
+                      }
+
+
+                      //Raw form data
+                      List<DocumentSnapshot> dbData = snapshot.data.docs;
+
+
+                      dbData.forEach((DocumentSnapshot e) {
+
+
+
+                  filteredData.add(ImageWithLabelModel.fromJson(e.data()));
+                        });
+
+                        return ListViewWithImageAndLabel(
+                        data: filteredData,
+                      );
+                    }
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -150,7 +175,19 @@ class _DashboardHomeScreenState extends State<DashboardHomeScreen> {
                 ],
               ),
             ),
-            ListViewWithImageAndStar(),
+            StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection('poplarResturants').limit(3).snapshots(),
+              builder: (context, snapshot) {
+
+
+                if(!snapshot.hasData){
+                  return Center(child: CircularProgressIndicator(),);
+                }
+                return ListViewWithImageAndStar(
+                  popularResturants: snapshot.data.docs
+                );
+              }
+            ),
             SizedBox(
               height: 10,
             ),

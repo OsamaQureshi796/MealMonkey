@@ -4,10 +4,10 @@ class ImageWithLabelModel{
 
   ImageWithLabelModel({this.image,this.lable});
 
-  factory ImageWithLabelModel.fromJson(Map<String,String> singleItem){
+  factory ImageWithLabelModel.fromJson(var singleItem){
     return ImageWithLabelModel(
       image: singleItem['image']??"",
-      lable: singleItem['lable']??""
+      lable: singleItem['title']??""
     );
   }
 
