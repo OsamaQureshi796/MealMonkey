@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:monkey_meal/model/ImageWithLabelModel.dart';
 import 'package:monkey_meal/screens/DashboardScreens/foodDetail.dart';
+import 'package:monkey_meal/screens/DashboardScreens/menuScreen.dart';
 import 'package:monkey_meal/utils/AppColors.dart';
 
 Widget myRichText({String title1 = 'Meal ', String title2 = 'Monkey'}) {
@@ -260,7 +261,10 @@ Widget ListViewWithImageAndStar({List<DocumentSnapshot> popularResturants= const
   );
 }
 
-Widget ListViewWithImageAndStarButBlack(BuildContext context) {
+Widget ListViewWithImageAndStarButBlack(BuildContext context,{List<MenuItems> menuItems}) {
+
+  print(menuItems.length);
+
   return Container(
     child: ListView.builder(
       shrinkWrap: true,
@@ -281,8 +285,8 @@ Widget ListViewWithImageAndStarButBlack(BuildContext context) {
                 decoration: BoxDecoration(
                     color: Colors.green,
                     image: DecorationImage(
-                        image: AssetImage(
-                          'assets/dish2.png',
+                        image: NetworkImage(
+                          menuItems[i].image,
                         ),
                         colorFilter:
                             ColorFilter.mode(Colors.black38, BlendMode.darken),
@@ -294,7 +298,7 @@ Widget ListViewWithImageAndStarButBlack(BuildContext context) {
                     Padding(
                       padding: const EdgeInsets.only(left: 20),
                       child: customText(
-                          title: 'kabali Poalwoo',
+                          title: menuItems[i].title,
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -330,7 +334,7 @@ Widget ListViewWithImageAndStarButBlack(BuildContext context) {
           ),
         );
       },
-      itemCount: 3,
+      itemCount: menuItems.length,
     ),
   );
 }

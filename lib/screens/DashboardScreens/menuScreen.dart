@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:monkey_meal/utils/AppColors.dart';
 import 'package:monkey_meal/widgets/ourWidgets.dart';
 
@@ -64,304 +66,124 @@ class _MenuScreenState extends State<MenuScreen> {
                     ),
                   ),
 
-                  Column(
-                    children: [
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
 
 
-                      Container(
-                        width: double.infinity,
-                        height: 100,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              right: 37,
-                              top: 20,
-                              bottom: 10,
-                              child: Container(
+                        StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance.collection('menu').snapshots(),
+                          builder: (context, snapshot) {
+
+
+                            if(!snapshot.hasData){
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+
+
+                            List<DocumentSnapshot> firebaseData = snapshot.data.docs;
+
+                            List<MenuModel> menu = [];
+
+
+                            firebaseData.forEach((element) {
+                              menu.add(MenuModel.fromJson(element.data()));
+                            });
+
+
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              itemBuilder: (ctx,i){
+
+
+                              return InkWell(
+                                onTap: (){
+                                  print(firebaseData[i].id);
+                                  String id = firebaseData[i].id;
+
+                                  Get.to(()=>DesertScreen(category: menu[i].title,id: id,));
+
+                                },
                                 child: Container(
-                                  width: 320,
-                                  height: 97,
+                                  width: double.infinity,
+                                  height: 100,
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        right: 37,
+                                        top: 20,
+                                        bottom: 10,
+                                        child: Container(
+                                          child: Container(
+                                            width: 320,
+                                            height: 97,
 
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10),bottomLeft: Radius.circular(30),topLeft: Radius.circular(30)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black12,
-                                        spreadRadius: 3
-                                      )
-                                    ]
-                                  ),
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 50),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        customText(title:'Food',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
-                                        customText(title: '120 items')
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 18,
-                              bottom: 10,
-                              left: 25,
-                              child: Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: AssetImage('assets/dish1.png')
-                                  )
-                                ),
-                              ),
-                            ),
-
-                            Positioned(
-                              right: 25,
-                              top: 10,
-                              bottom: 10,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(color: Colors.black12,spreadRadius: 3)
-                                  ]
-                                ),
-                                child: Icon(Icons.arrow_forward_ios_rounded,color: AppColors.orangeColor,size: 25,),),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        height: 100,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              right: 37,
-                              top: 20,
-                              bottom: 10,
-                              child: Container(
-                                child: Container(
-                                  width: 320,
-                                  height: 97,
-
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10),bottomLeft: Radius.circular(30),topLeft: Radius.circular(30)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black12,
-                                        spreadRadius: 3
-                                      )
-                                    ]
-                                  ),
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 50),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        customText(title:'Food',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
-                                        customText(title: '120 items')
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 18,
-                              bottom: 10,
-                              left: 25,
-                              child: Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: AssetImage('assets/dish1.png')
-                                  )
-                                ),
-                              ),
-                            ),
-
-                            Positioned(
-                              right: 25,
-                              top: 10,
-                              bottom: 10,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(color: Colors.black12,spreadRadius: 3)
-                                  ]
-                                ),
-                                child: Icon(Icons.arrow_forward_ios_rounded,color: AppColors.orangeColor,size: 25,),),
-                            )
-                          ],
-                        ),
-                      ),
-
-                      InkWell(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (ctx)=>DesertScreen()));
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          height: 100,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                right: 37,
-                                top: 20,
-                                bottom: 10,
-                                child: Container(
-                                  child: Container(
-                                    width: 320,
-                                    height: 97,
-
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10),bottomLeft: Radius.circular(30),topLeft: Radius.circular(30)),
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.black12,
-                                              spreadRadius: 3
-                                          )
-                                        ]
-                                    ),
-                                    child: Container(
-                                      margin: EdgeInsets.only(left: 50),
-                                      child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          customText(title:'Desert',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
-                                          customText(title: '120 items')
-                                        ],
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10),bottomLeft: Radius.circular(30),topLeft: Radius.circular(30)),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: Colors.black12,
+                                                      spreadRadius: 3
+                                                  )
+                                                ]
+                                            ),
+                                            child: Container(
+                                              margin: EdgeInsets.only(left: 50),
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  customText(title:menu[i].title,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+                                                  customText(title: '${menu[i].items} items')
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: 18,
-                                bottom: 10,
-                                left: 25,
-                                child: Container(
-                                  width: 60,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: AssetImage('assets/dish1.png')
+                                      Positioned(
+                                        top: 18,
+                                        bottom: 10,
+                                        left: 25,
+                                        child: Container(
+                                          width: 60,
+                                          height: 60,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  image: NetworkImage(menu[i].image) ,
+                                                fit: BoxFit.cover
+                                              ),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        right: 25,
+                                        top: 10,
+                                        bottom: 10,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              shape: BoxShape.circle,
+                                              boxShadow: [
+                                                BoxShadow(color: Colors.black12,spreadRadius: 3)
+                                              ]
+                                          ),
+                                          child: Icon(Icons.arrow_forward_ios_rounded,color: AppColors.orangeColor,size: 25,),),
                                       )
+                                    ],
                                   ),
                                 ),
-                              ),
-
-                              Positioned(
-                                right: 25,
-                                top: 10,
-                                bottom: 10,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle,
-                                      boxShadow: [
-                                        BoxShadow(color: Colors.black12,spreadRadius: 3)
-                                      ]
-                                  ),
-                                  child: Icon(Icons.arrow_forward_ios_rounded,color: AppColors.orangeColor,size: 25,),),
-                              )
-                            ],
-                          ),
+                              );
+                            },itemCount: menu.length,);
+                          }
                         ),
-                      ),
 
-                      Container(
-                        width: double.infinity,
-                        height: 100,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              right: 37,
-                              top: 20,
-                              bottom: 10,
-                              child: Container(
-                                child: Container(
-                                  width: 320,
-                                  height: 97,
-
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10),bottomLeft: Radius.circular(30),topLeft: Radius.circular(30)),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.black12,
-                                            spreadRadius: 3
-                                        )
-                                      ]
-                                  ),
-                                  child: Container(
-                                    margin: EdgeInsets.only(left: 50),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        customText(title:'Food',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
-                                        customText(title: '120 items')
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 18,
-                              bottom: 10,
-                              left: 25,
-                              child: Container(
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: AssetImage('assets/dish1.png')
-                                    )
-                                ),
-                              ),
-                            ),
-
-                            Positioned(
-                              right: 25,
-                              top: 10,
-                              bottom: 10,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle,
-                                    boxShadow: [
-                                      BoxShadow(color: Colors.black12,spreadRadius: 3)
-                                    ]
-                                ),
-                                child: Icon(Icons.arrow_forward_ios_rounded,color: AppColors.orangeColor,size: 25,),),
-                            )
-                          ],
-                        ),
-                      ),
-
-
-                    ],
+                      ],
+                    ),
                   )
 
 
@@ -378,6 +200,37 @@ class _MenuScreenState extends State<MenuScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class MenuModel{
+
+  String image,title,items;
+
+  MenuModel({this.title,this.image,this.items});
+
+
+
+  factory MenuModel.fromJson(var jsonData){
+    return MenuModel(
+      title: jsonData['title']??"",
+      items: jsonData['items']??"",
+      image: jsonData['image']??""
+    );
+  }
+
+
+}
+
+
+class MenuItems{
+  String image,title;
+  MenuItems({this.title,this.image});
+  factory MenuItems.fromJson(var data){
+    return MenuItems(
+      title: data['title']??"",
+      image: data['image']??""
     );
   }
 }
