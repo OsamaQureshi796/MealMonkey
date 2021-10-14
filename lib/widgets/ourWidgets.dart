@@ -122,8 +122,10 @@ Widget myTextFiled({String hintText, Function validator, Function onSaved}) {
   );
 }
 
-Widget myTextFiledWithIcon({String hintText, IconData icon}) {
+Widget myTextFiledWithIcon({String hintText, IconData icon,TextEditingController controller,Function onChange}) {
   return TextField(
+    controller: controller,
+    onChanged: (input)=>onChange(),
     decoration: InputDecoration(
       // contentPadding: EdgeInsets.symmetric(horizontal: 0),
       filled: true,
@@ -273,7 +275,7 @@ Widget ListViewWithImageAndStarButBlack(BuildContext context,{List<MenuItems> me
         return InkWell(
           onTap: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (ctx) => FoodDetailScreen()));
+                MaterialPageRoute(builder: (ctx) => FoodDetailScreen(menuItems[i].docId,favIds: menuItems[i].myFavouriteUsers,)));
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

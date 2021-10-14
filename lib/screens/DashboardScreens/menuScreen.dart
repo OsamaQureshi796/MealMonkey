@@ -225,12 +225,15 @@ class MenuModel{
 
 
 class MenuItems{
-  String image,title;
-  MenuItems({this.title,this.image});
-  factory MenuItems.fromJson(var data){
+  String image,title,docId;
+  List myFavouriteUsers = [];
+  MenuItems({this.title,this.image,this.docId,this.myFavouriteUsers});
+  factory MenuItems.fromJson(var data,String documentId){
     return MenuItems(
       title: data['title']??"",
-      image: data['image']??""
+      image: data['image']??"",
+      docId: documentId,
+      myFavouriteUsers: data['fav']??[]
     );
   }
 }

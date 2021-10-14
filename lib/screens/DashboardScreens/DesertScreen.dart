@@ -15,6 +15,12 @@ class DesertScreen extends StatefulWidget {
 }
 
 class _DesertScreenState extends State<DesertScreen> {
+
+
+  List<MenuItems> menuItems = [];
+  List<MenuItems> filteredData = [];
+
+  TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
 
@@ -47,7 +53,13 @@ class _DesertScreenState extends State<DesertScreen> {
               margin: EdgeInsets.symmetric(horizontal: 21),
               child: myTextFiledWithIcon(
                   hintText: 'Search here',
-                  icon: Icons.search
+                  icon: Icons.search,
+                  controller: searchController,
+                onChange: (){
+                    setState(() {
+
+                    });
+                }
               ),
             ),
             SizedBox(
@@ -65,16 +77,21 @@ class _DesertScreenState extends State<DesertScreen> {
                 List<DocumentSnapshot> firebaseData = snapshot.data.docs;
 
                 print(firebaseData.length);
-                List<MenuItems> menuItems = [];
 
+
+                menuItems.clear();
                 firebaseData.forEach((element) {
-                  menuItems.add(MenuItems.fromJson(element.data()));
+                  menuItems.add(MenuItems.fromJson(element.data(),element.id));
                 });
 
+                if(searchController.text.isEmpty){
+                  filteredData = menuItems;
+                   }else{
+                  filteredData = menuItems.where((element) => element.title.toLowerCase().contains(searchController.text.toLowerCase())).toList();
+                   }
 
-                print(menuItems.length);
 
-                return ListViewWithImageAndStarButBlack(context,menuItems: menuItems);
+                return ListViewWithImageAndStarButBlack(context,menuItems: filteredData);
               }
             ),
           ],

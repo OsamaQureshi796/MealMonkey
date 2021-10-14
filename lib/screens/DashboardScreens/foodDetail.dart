@@ -1,7 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:monkey_meal/utils/AppColors.dart';
 
 class FoodDetailScreen extends StatefulWidget {
+  String docId;
+  FoodDetailScreen(this.docId,{this.favIds= const[]});
+  List favIds;
   @override
   _FoodDetailScreenState createState() => _FoodDetailScreenState();
 }
@@ -9,6 +14,21 @@ class FoodDetailScreen extends StatefulWidget {
 class _FoodDetailScreenState extends State<FoodDetailScreen> {
   String dropdownValue = '   - Select the size of the portion';
   String dropdownValue2 = '   - Select the ingradients';
+
+  bool isMyFavorute=false;
+  String uid;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+     uid = FirebaseAuth.instance.currentUser.uid;
+    if(widget.favIds.contains(uid)){
+      isMyFavorute = true;
+      setState(() {
+
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -388,17 +408,34 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
             Positioned(
               top: 235,
               right: 10,
-              child: Material(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50)),
-                child: CircleAvatar(
-                  radius: 30,
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.favorite,
-                    color: AppColors.orangeColor,
-                    size: 30,
+              child: InkWell(
+                onTap: (){
+                  if(isMyFavorute){
+                    FirebaseFirestore.instance.collection('Recipes').doc(widget.docId).set({'fav':FieldValue.arrayRemove([uid])},SetOptions(merge: true));
+                    /// Make it unfavourite
+                    ///
+                  }else{
+                    FirebaseFirestore.instance.collection('Recipes').doc(widget.docId).set({'fav':FieldValue.arrayUnion([uid])},SetOptions(merge: true));
+
+                    /// Make it favourite
+                  }
+                  setState(() {
+                    isMyFavorute = !isMyFavorute;
+                  });
+                },
+                child: Material(
+                  
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50)),
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                     isMyFavorute? Icons.favorite: Icons.favorite_border,
+                      color: AppColors.orangeColor,
+                      size: 30,
+                    ),
                   ),
                 ),
               ),
