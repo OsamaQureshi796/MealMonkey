@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:monkey_meal/utils/AppColors.dart';
 import 'package:monkey_meal/widgets/ourWidgets.dart';
@@ -10,18 +12,60 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
 
 
-  List<String> labels = [
-    'Name',
-    'Mobile',
-    'Email',
-    "Adress",
-    "Password"
-  ];
+  TextEditingController nameController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
+  bool isDataLoading = true;
+  DocumentSnapshot myData;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    String uid = FirebaseAuth.instance.currentUser.uid;
+    print(uid);
+    FirebaseFirestore.instance.collection('users').doc(uid).get().then((value){
+      isDataLoading = false;
+
+      myData = value;
+
+      setState(() {
+
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+
+    print("Hello");
+    print(FirebaseAuth.instance.currentUser.uid);
+    String image;
+    String name;
+    String email;
+
+    try{
+      image = myData.get('image');
+    }catch(e){
+      image = '';
+    }
+    
+    try{
+      name = myData.get('name');
+    }catch(e){
+      name = '';
+    }
+
+    try{
+      email = myData.get('email');
+    }catch(e){
+      email = '';
+    }
+
     return Scaffold(
-      body: Padding(
+      body: isDataLoading? Center(child: CircularProgressIndicator(),) :Padding(
         padding: const EdgeInsets.symmetric(horizontal: 21),
         child: SingleChildScrollView(
           child: Column(
@@ -34,9 +78,14 @@ class _ProfileState extends State<Profile> {
               SizedBox(
                 height: 20,
               ),
-              CircleAvatar(
+              image.isEmpty?
+                  CircleAvatar(
+                    radius: 40,
+                    child: Icon(Icons.camera_alt),
+                  )
+                  :CircleAvatar(
                 radius: 40,
-                backgroundImage: AssetImage('assets/dish7.png'),
+                backgroundImage: NetworkImage(image),
               ),
               SizedBox(
                height: 20,
@@ -56,15 +105,38 @@ class _ProfileState extends State<Profile> {
                 height: 10,
               ),
 
-              Text("Hi There Emilia",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
+              Text("Hi There $email",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
 
               TextButton(onPressed: (){}, child: Text('Sign out',style: TextStyle(color: Colors.grey),))
 ,
-              for(int i=0;i<labels.length;i++)
+
               Column(
                 children: [
                   myTextFiled(
-                      hintText: labels[i]
+                      hintText: 'Name',
+                    controller: nameController
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  myTextFiled(
+                      hintText: 'Email',
+                    controller: emailController
+
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  myTextFiled(
+                      hintText: 'Mobile Number',
+                    controller: mobileController
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  myTextFiled(
+                      hintText: 'Address',
+                    controller: addressController
                   ),
                   SizedBox(
                     height: 10,

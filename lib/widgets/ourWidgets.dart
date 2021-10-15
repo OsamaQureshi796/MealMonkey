@@ -100,9 +100,10 @@ Widget myStadiumIconButton(
   );
 }
 
-Widget myTextFiled({String hintText, Function validator, Function onSaved}) {
+Widget myTextFiled({String hintText, Function validator, Function onSaved,TextEditingController controller}) {
   return TextFormField(
     validator: validator,
+    controller: controller,
     onSaved: onSaved,
     decoration: InputDecoration(
       // contentPadding: EdgeInsets.symmetric(horizontal: 0),
